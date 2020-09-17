@@ -5,6 +5,8 @@ const mongoose = require('mongoose')
 const Messages = require('./dbMessages')
 const Pusher = require('pusher');
 
+require('custom-env').env('development');
+
 // app config 
 const app = express();
 const port =  process.env.PORT || 9000;
@@ -20,9 +22,9 @@ const pusher = new Pusher({
 // middleware
 app.use(cors());
 app.use(express.json());
-
+console.log('process file.....', process.env);
 // dbconfig
-const connection_url =  'mongodb+srv://admin:PK98dV2jaRHlDx27@cluster0.cvar8.mongodb.net/whatsappdb?retryWrites=true&w=majority';
+const connection_url =  `mongodb+srv://admin:${process.env.password}@cluster0.cvar8.mongodb.net/whatsappdb?retryWrites=true&w=majority`;
 mongoose.connect(connection_url,{
     useNewUrlParser:true,
     useCreateIndex:true,
