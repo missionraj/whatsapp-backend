@@ -2,8 +2,10 @@
 const express = require('express')
 const cors = require('cors');
 const mongoose = require('mongoose')
-const Messages = require('./dbMessages')
+const Messages = require('./models/dbMessages')
+const users = require('./models/users');
 const Pusher = require('pusher');
+
 
 require('custom-env').env('development');
 
@@ -22,7 +24,6 @@ const pusher = new Pusher({
 // middleware
 app.use(cors());
 app.use(express.json());
-console.log('process file.....', process.env);
 // dbconfig
 const connection_url =  `mongodb+srv://admin:${process.env.password}@cluster0.cvar8.mongodb.net/whatsappdb?retryWrites=true&w=majority`;
 mongoose.connect(connection_url,{
@@ -74,6 +75,42 @@ app.post('/api/messages/new',(req,res)=>{
             res.status(201).send(data);
         }
     })
+})
+
+// find the user if already registerd or not
+app.post('/api/checkuser', (req,res)=> { 
+    const { email } = req.body;
+    users.findOne({email: email}, function (err, user) {
+        if (!err) { 
+            res.json({
+                success:true,
+                user:user
+            })   
+        } else { 
+            res.json({
+                success:false,
+                message : JSON.stringify(err)
+            })
+        }
+    })
+})
+
+// find the user if already registerd or not
+app.post('/api/registerUser', (req,res)=> { 
+    const data = req.body;
+    users.create(data, function (err, user) {
+        if (!err) { 
+            res.json({
+                success:true,
+                user: user
+            })
+        } else {  
+            res.json({
+                success:false,
+                user: err
+            })
+        }
+    });
 })
 
 // listen 
