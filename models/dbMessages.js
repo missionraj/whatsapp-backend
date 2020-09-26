@@ -5,7 +5,7 @@ const messagesSchema = mongoose.Schema({
     name:String,
     timestamp:String,
     recieved : Boolean,
-    room: {type: mongoose.Schema.Types.ObjectId, ref: 'rooms' },
+    room: [{type: mongoose.Schema.Types.ObjectId, ref: 'rooms' }],
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'users' },
 });
 

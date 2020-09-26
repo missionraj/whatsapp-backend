@@ -4,6 +4,7 @@ const cors = require('cors');
 const mongoose = require('mongoose')
 const Messages = require('./models/dbMessages')
 const users = require('./models/users');
+const rooms = require('./models/rooms');
 const Pusher = require('pusher');
 
 
@@ -111,6 +112,40 @@ app.post('/api/registerUser', (req,res)=> {
             })
         }
     });
+})
+
+// cerate a new chat group 
+app.post('/api/newgroup',(req,res)=>{
+    const data = req.body;
+    rooms.create(data,function (err, room) {
+        if (!err) { 
+            res.json({
+                success:true,
+                user: room
+            })
+        } else {  
+            res.json({
+                success:false,
+                user: err
+            })
+        }
+    });
+})
+// get rooms
+app.get('/api/getRooms',(req,res)=>{
+    rooms.find({},(err,data)=>{
+        if (!err) { 
+            res.json({
+                success:true,
+                rooms: data
+            })
+        } else {
+            res.json({
+                success:false,
+                rooms: data
+            })
+        }
+    })
 })
 
 // listen 
