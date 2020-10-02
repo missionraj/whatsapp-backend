@@ -46,6 +46,7 @@ db.once("open",()=>{
                 room:messageDetails.room,
                 name:messageDetails.name, 
                 timestamp:messageDetails.timestamp,
+                _id:messageDetails._id
             })
         } else {
             console.log('error in trigering pusher...');

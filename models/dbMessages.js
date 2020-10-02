@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const messagesSchema = mongoose.Schema({
     message:String,
-    timestamp:{ type: Date, default: Date.now },
+    timestamp:String,
     room: {type: mongoose.Schema.Types.ObjectId, ref: 'rooms' },
     user: {type: mongoose.Schema.Types.ObjectId, ref: 'users' },
     name: String

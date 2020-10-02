@@ -17,7 +17,7 @@ router.route('/newgroup').post(rooms.newGroup);
 router.route('/getRooms').get(rooms.getRooms);
 
 // get message sync 
-router.route('/message/sync').get(messages.getMessages);
+router.route('/message/sync/:roomid').get(messages.getMessages);
 
 // create new messages
 router.route('/messages/new').post(messages.createNewMessage);

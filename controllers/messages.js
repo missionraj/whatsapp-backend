@@ -1,8 +1,8 @@
 const Messages = require('../models/dbMessages');
 
 
-exports.getMessages = (req,res)=> { 
-    Messages.find((err,data)=> { 
+exports.getMessages = (req,res)=> {
+    Messages.find({ room: req.params.roomid },(err,data) => { 
         if (err) {
             res.status(500).json({
                 success:false,
@@ -22,9 +22,15 @@ exports.createNewMessage = (req,res) => {
     const dbMessage = req.body;
     Messages.create(dbMessage,(err,data)=>{
         if (err) {
-            res.status(500).send(err);
+            res.status(500).json({
+                success:false,
+                err:JSON.stringify(err)
+            });
         } else {
-            res.status(201).send(data);
+            res.status(201).json({
+                success:true,
+                data:data
+            });
         }
     })
 }
